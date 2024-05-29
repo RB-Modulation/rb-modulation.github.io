@@ -33,14 +33,24 @@
   <p>We propose Reference-Based Modulation (RB-Modulation), a new plug-and-play solution for training-free personalization of diffusion models. Existing trainingfree approaches exhibit difficulties in (a) style extraction from reference images in the absence of additional style or content text descriptions, (b) unwanted content leakage from reference style images, and (c) effective composition of style and content. RB-Modulation is built on a novel stochastic optimal controller where a style descriptor encodes the desired attributes through a terminal cost. The resulting drift not only overcomes the difficulties above, but also ensures high fidelity to the reference style and adheres to the given text prompt. We also introduce a cross-attention-based feature aggregation scheme that allows RB-Modulation to decouple <em>content</em> and <em>style</em> from the reference image. With theoretical justification and empirical evidence, our framework demonstrates precise extraction and control of content and style in a training-free manner. Further, our method allows a seamless composition of content and style, which marks a departure from the dependency on external adapters or ControlNets.</p>
 </div>
 
-
+<!-- 
 <div class="content">
     <h2>Problem Statement</h2>
     <p>In <strong>training-free stylization</strong>, recent methods [12, 13, 14] manipulate keys and values within the attention layers using just one reference style image. These methods face challenges in both extracting the style from the reference style image and accurately transferring the style to a target content image. For instance, during the DDIM inversion step [20] utilized by StyleAligned [12], fine-grained details tend to be compromised. To mitigate this issue, InstantStyle [13] incorporates features from the reference style image into specific layers of a previously trained IP-Adapter [21]. However, identifying the exact layer for feature injection in a model is complex and not universally applicable across models. Also, feature injection can cause content leakage from the style image into the generated content. Moving on to <strong>content-style composition</strong>, InstantStyle [13] employs a ControlNet [22] (an additionally trained network) to preserve image layout, which inadvertently limits its diversity.
     <br> 
     We introduce Reference-Based Modulation (<strong>RB-Modulation</strong>), a novel approach for content and style personalization that eliminates the need for training or finetuning diffusion models (e.g. ControlNet [22] or adapters [21, 9]). By incorporating style features into the controller’s terminal cost, we modulate the drift field in diffusion models’ reverse dynamics, enabling training-free personalization. Further, unlike conventional attention processors that often leak content from the reference style image, we propose an Attention Feature Aggregation (AFA) module that decouples content from the reference style image.
     </p>    
-    </div>
+    </div> -->
+<div class="content">
+    <h2>Contributions</h2>
+    <ul>
+      <li>We present reference-based modulation (RB-Modulation), a novel stochastic optimal control framework that enables training-free, personalized style and content control, with a new Attention Feature Aggregation (AFA) module to maintain high fidelity to the reference image while adhering to the given prompt (§4).</li>
+      <li>We provide theoretical justifications connecting optimal control and reverse diffusion dynamics. We leverage this connection to incorporate desired attributes (e.g., style) in our controller’s terminal cost and personalize T2I models in a training-free manner (§5).
+      </li>
+      <li>We perform extensive experiments covering stylization and content-style composition, demonstrating superior performance over SoTA methods in human preference metrics (§6).</li>
+    </ul>        
+    </div> -->
+
 <div class="content">        
     <h2>Qualitative Results for Stylization</h2>
     <p>In the third row, StyleAligned and StyleDrop generate a wine bottle and book resembling the smartphone in the reference style image. In the last row, StyleAligned leaks the house and the background of the reference image; InstantStyle exhibits color leakage from the house, resulting in similar-colored images. Our method accurately adheres to the prompt in the desired style.</p>
