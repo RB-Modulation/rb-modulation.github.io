@@ -1,0 +1,7 @@
+@article{
+  shah2023ZipLoRA,
+  title={ZipLoRA: Any Subject in Any Style by Effectively Merging LoRAs},
+  author={Shah, Viraj and Ruiz, Nataniel and Cole, Forrester and Lu, Erika and Lazebnik, Svetlana and Li, Yuanzhen and Jampani, Varun},
+  booktitle={arXiv preprint arxiv},
+  year={2023}
+}
