@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>RBM</title>
+<title>RB-Modulation</title>
 <link href="./style.css" rel="stylesheet">
 <!-- <script type="text/javascript" src="./DreamBooth_files/jquery.js"></script> -->
 </head>
@@ -10,95 +10,98 @@
 <div class="content">
   <h1><strong>RB-Modulation: Training-Free Personalization of Diffusion Models using Stochastic Optimal Control</strong></h1>
   <!-- <h2 style="text-align:center;">CVPR 2024</h2> -->
-  <p id="authors"><a href="https://amirhertz.github.io/">Litu Rout<sup>1</sup></a> <a href="">Andrey Voynov<sup>* 1</sup></a> <a href="">Shlomi Fruchter<sup>† 1</sup></a> <a href="https://danielcohenor.com/">Daniel Cohen-Or<sup>† 1,2</sup></a><br>
+  <p id="authors"><a href="https://liturout.github.io/">Litu Rout<sup>1,2</sup></a> <a href="">Yujia Chen<sup>2</sup></a> <a href="https://natanielruiz.github.io/">Nataniel Ruiz<sup>2</sup></a> <br></a><a href="https://abhishek.umiacs.io/">Abhishek Kumar<sup>3</sup></a> <a href="https://caramanis.github.io/">Constantine Caramanis<sup>1</sup></a> <a href="https://sites.google.com/view/sanjay-shakkottai/home">Sanjay Shakkottai<sup>2</sup><a href="https://l2ior.github.io/">Wen-Sheng Chu<sup>2</sup></a><br>
 
     <span style="font-size: 16px"><br>
-        <sup>1</sup> University of Texas, Austin <sup>2</sup> Google <sup>3</sup> Google DeepMind <br>     
+        <sup>1</sup> University of Texas, Austin  &nbsp  <sup>2</sup> Google  &nbsp <sup>3</sup> Google DeepMind <br>     
         </p>
 
   <img src="./data/web1.png" class="teaser-gif" style="width:100%;">
     <font size="+2">
           <p style="text-align: center;">
-            <a href="https://arxiv.org/abs/2312.02133" target="_blank">[Paper]</a> &nbsp;&nbsp;&nbsp;&nbsp;
-	        <a href="https://github.com/google/style-aligned/" target="_blank">[Code]</a>
+            <a href="./data/main.pdf" target="_blank">[Paper]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="https://arxiv.org/abs/2405.17401" target="_blank">[arXiv]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+	        <a href="https://github.com/LituRout/RB-Modulation" target="_blank">[Code]</a>
           </p>
     </font>
-    <h3 style="text-align:center;">StyleAligned performs consistent style generation with a pretrained diffusion model <u>without fine-tuning</u>.</h3>
+    <p>Given a single reference image (rounded rectangle), our method <strong>RB-Modulation</strong> offers a <u>training-free plug-and-play solution</u> for (a) stylization, and (b) content-style composition with various prompts while maintaining sample diversity and prompt alignment. For instance, given a reference style image (e.g. “melting golden 3d rendering style”) and content image (e.g. (A) “dog”), our method adheres to the desired prompts without leaking contents from the reference style image and without being restricted to the pose of the reference content image. </p>
 </div>
 
 
 <div class="content">
   <h2 style="text-align:center;">Abstract</h2>
-  <p>Large-scale Text-to-Image (T2I) models have rapidly gained prominence across creative fields, generating visually compelling outputs from textual prompts. However, controlling these models to ensure consistent style remains challenging, with existing methods necessitating fine-tuning and manual intervention to disentangle content and style. In this paper, we introduce StyleAligned, a novel technique designed to establish style alignment among a series of generated images. By employing minimal `attention sharing' during the diffusion process, our method maintains style consistency across images within T2I models. This approach allows for the creation of style-consistent images using a reference style through a straightforward inversion operation. Our method's evaluation across diverse styles and text prompts demonstrates high-quality synthesis and fidelity, underscoring its efficacy in achieving consistent style across various inputs.</p>
+  <p>We propose Reference-Based Modulation (RB-Modulation), a new plug-and-play solution for training-free personalization of diffusion models. Existing trainingfree approaches exhibit difficulties in (a) style extraction from reference images in the absence of additional style or content text descriptions, (b) unwanted content leakage from reference style images, and (c) effective composition of style and content. RB-Modulation is built on a novel stochastic optimal controller where a style descriptor encodes the desired attributes through a terminal cost. The resulting drift not only overcomes the difficulties above, but also ensures high fidelity to the reference style and adheres to the given text prompt. We also introduce a cross-attention-based feature aggregation scheme that allows RB-Modulation to decouple <em>content</em> and <em>style</em> from the reference image. With theoretical justification and empirical evidence, our framework demonstrates precise extraction and control of content and style in a training-free manner. Further, our method allows a seamless composition of content and style, which marks a departure from the dependency on external adapters or ControlNets.</p>
 </div>
 
 
 <div class="content">
     <h2>Problem Statement</h2>
-    <p> While producing high-quality images that are aligned with any textual description, state-of-the-art text-to-image models often create images that diverge significantly in their interpretations of the same stylistic descriptor. Given a style description of “minimal origami”, standard text-to-image generation (left) outputs images with significantly different styles. Our method makes the model generation style persistent (right).</p>
-    <br>
+    <p>In <strong>training-free stylization</strong>, recent methods [12, 13, 14] manipulate keys and values within the attention layers using just one reference style image. These methods face challenges in both extracting the style from the reference style image and accurately transferring the style to a target content image. For instance, during the DDIM inversion step [20] utilized by StyleAligned [12], fine-grained details tend to be compromised. To mitigate this issue, InstantStyle [13] incorporates features from the reference style image into specific layers of a previously trained IP-Adapter [21]. However, identifying the exact layer for feature injection in a model is complex and not universally applicable across models. Also, feature injection can cause content leakage from the style image into the generated content. Moving on to <strong>content-style composition</strong>, InstantStyle [13] employs a ControlNet [22] (an additionally trained network) to preserve image layout, which inadvertently limits its diversity.
+    <br> 
+    We introduce Reference-Based Modulation (<strong>RB-Modulation</strong>), a novel approach for content and style personalization that eliminates the need for training or finetuning diffusion models (e.g. ControlNet [22] or adapters [21, 9]). By incorporating style features into the controller’s terminal cost, we modulate the drift field in diffusion models’ reverse dynamics, enabling training-free personalization. Further, unlike conventional attention processors that often leak content from the reference style image, we propose an Attention Feature Aggregation (AFA) module that decouples content from the reference style image.
+    </p>    
+    </div>
+<div class="content">        
+    <h2>Qualitative Results for Stylization</h2>
+    <p>In the third row, StyleAligned and StyleDrop generate a wine bottle and book resembling the smartphone in the reference style image. In the last row, StyleAligned leaks the house and the background of the reference image; InstantStyle exhibits color leakage from the house, resulting in similar-colored images. Our method accurately adheres to the prompt in the desired style.</p>
     <img class="summary-img" src="./data/web2.png" style="width:100%;"> <br>
+    <p> A comparison with state-of-the-art methods (InstantStyle [13], StyleAligned [12], StyleDrop [11]) highlights our advantages in preventing information leakage from the reference style and adhering more closely to the desired text prompts.</p>    
   </div>
 
 <div class="content">
-  <h2>Style Aligned Generation</h2>
-  <p>Generation of images with a style aligned to the reference image on the left. In each diffusion denoising step, all the images, except the reference, perform a shared self-attention with the reference image.</p>
+  <h2>Qualitative Results for Content-Style Composition</h2>
+  <p>Among training-free methods, InstantStyle and IP-Adapter rely on ControlNet [22], which often constrains their ability to accurately follow prompts for changing the pose of the generated content, such as illustrating “dancing” in (b), or “walking” in (c). In contrast, our method avoids the need for ControlNet or adapters, and can effectively capture the distinctive attributes of both style and content images while adhering to the prompt to generate diverse images.</p>
   <br>
   <img class="summary-img" src="./data/web3.png" style="width:100%;"> <br>
   <br>
-  <p>The target images attend to the reference image by applying AdaIN over their queries and keys using the reference queries and keys. Then, we apply shared attention where the target features are updated by both the target values Vt and the reference values Vr.</p>
+  <p>Our method shows better prompt alignment and greater diversity than training-free methods IP-Adapter [21] and InstantStyle [13], and have competitive performance with training-based ZipLoRA [10].</p>
 </div>
 
 
 <div id="results" class="content">
-  <h2>Results</h2>
-  <p>Our method enables style-consistent content generation using different prompts <b>without fine-tuning</b>  </p>
+  <h2>Ablation Study</h2>
+  <p>Our method builds on <b>any transformer-based diffusion model</b>. In this case, we use StableCascade [24] as the foundation, and sequentially add each module to show their effectiveness. DirectConcat involves concatenating reference image embeddings with prompt embeddings. Style descriptions are excluded in this ablation study. </p>
   <img class="summary-img" src="./data/web4.png" style="width:100%;">
+  <h3 style="text-align:center">We observe consistent improvements with the addition of AFA and SOC module, with the best results when combined.</h3>
 </div>
 
 <div id="results2" class="content">
-  <h2>Integration with Other Methods</h2>
-  <p>StyleAligned can be easily combined with other methods.</p>
-
-
-    <h4><a href="https://github.com/lllyasviel/ControlNet" target="_blank">ControlNet </a> + StyleAligned</h4>
-
+  <h2>Consistent Stylization for User Defined Prompts</h2>
+  <p>With no style description, our results demonstrate more diversity while following the desired prompts and effectively capturing the reference style. InstantStyle results show monotonous scenes and StyleAligned results suffer from severe information leakage. We report StyleDrop results for completeness and it is known to perform worse with no style description and a single training image [11].</p>
     <img class="summary-img" src="./data/web5.png" style="width:100%;">
+  <h3 style="text-align:center">Each column describes consistent style aligned generations based on user defined prompts.</h3>
 </div>
 
 
 <div class="content">
-  <h2>Stylization w/ style descriptions</h2>
-  <p>Generation of images with a style aligned to the reference image on the left. In each diffusion denoising step, all the images, except the reference, perform a shared self-attention with the reference image.</p>
+  <h2>Stylization <b>with</b> Style Descriptions in Text Prompts</h2>
+  <p>While the alternative methods face challenges like following the prompts (e.g., multiple airplanes instead of a single airplane) and information leakage (e.g., the clouds on the cornflake bowl and the guitar in the milkshake image), our method demonstrates strong performance on both prompt and style alignment. Style description is in blue.</p>
   <br>
   <img class="summary-img" src="./data/web6_1.png" style="width:100%;"> <br>
   <br>
-  <h2>Stylization w/o style descriptions</h2>
-  <p>Generation of images with a style aligned to the reference image on the left. In each diffusion denoising step, all the images, except the reference, perform a shared self-attention with the reference image.</p>
+  <h2>Stylization <b>without</b> Style Descriptions in Text Prompts</h2>
+  <p>StyleAligned and StyleDrop show severe performance drop after removing the style descriptions (e.g., see fireman and cat images). InstantStyle results show more information leakage (e.g., the pink ladybug and leopard), whereas no obvious performance drop is observed in our results.</p>
   <br>
   <img class="summary-img" src="./data/web6_2.png" style="width:100%;"> <br>
   <br>
-
-  <p>The target images attend to the reference image by applying AdaIN over their queries and keys using the reference queries and keys. Then, we apply shared attention where the target features are updated by both the target values Vt and the reference values Vr.</p>
+  <p>While the content of an image can be conveyed through text, articulating an artist’s unique style – characterized by distinct brushstrokes, color palette, material, and texture – is substantially more nuanced and complex. The above figure demonstrates that our method generates consistent stylized results <b>with</b> and <b>without</b> the style description. We believe our early results by RB-Modulation will pave the way for interesting future research along this direction.
+  </p>
 </div>
-
-
 
 
 <div class="content">
   <h2>BibTex</h2>
-  <code> @article{hertz2023StyleAligned,<br>
-  &nbsp;&nbsp;title={Style Aligned Image Generation via Shared Attention},<br>
-  &nbsp;&nbsp;author={Hertz, Amir and Voynov, Andrey and Fruchter, Shlomi and Cohen-Or, Daniel},<br>
-  &nbsp;&nbsp;booktitle={arXiv preprint arxiv:2312.02133},<br>
-  &nbsp;&nbsp;year={2023}<br>
+  <code> @article{rout2024rbmodulation,<br>
+  &nbsp;&nbsp;title={RB-Modulation: Training-Free Personalization of Diffusion Models using Stochastic Optimal Control},<br>
+  &nbsp;&nbsp;author={Rout, L and Chen, Y and Ruiz, N and Kumar, A and Caramanis, C and Shakkottai, S and Chu, W},<br>
+  &nbsp;&nbsp;booktitle={arXiv preprint arxiv:2405.17401},<br>
+  &nbsp;&nbsp;year={2024}<br>
   } </code> 
 </div>
 
-
 <div class="content" id="acknowledgements">
   <p><strong>Acknowledgements</strong>:
-    We thank Or Patashnik, Matan Cohen, Yael Pritch, and Yael Vinker for their valuable inputs and early feedback that contributed to this work. We especially thank Yael Vinker for providing one of her <a href="https://yael-vinker.github.io/website/drawing.html">artworks</a> as a style reference.
+    This research has been supported by NSF Grant 2019844, a Google research collaboration award, and the UT Austin Machine Learning Lab. Litu Rout has been supported by Ju-Nam and Pearl Chew Presidential Fellowship in Engineering and George J. Heuer Graduate Fellowship.
   </p>
 </div>
 </body>
