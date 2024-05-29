@@ -1,15 +1,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>StyleAlign</title>
+<title>RBM</title>
 <link href="./style.css" rel="stylesheet">
 <!-- <script type="text/javascript" src="./DreamBooth_files/jquery.js"></script> -->
 </head>
 
 <body>
 <div class="content">
-  <h1><strong>Style Aligned Image Generation via Shared Attention</strong></h1>
-  <h2 style="text-align:center;">CVPR 2024, Oral</h2>
+  <h1><strong>RB-Modulation: Training-Free Personalization of Diffusion Models using Stochastic Optimal Control</strong></h1>
+  <h2 style="text-align:center;">CVPR 2024</h2>
   <p id="authors"><a href="https://amirhertz.github.io/">Amir Hertz<sup>* 1</sup></a> <a href="">Andrey Voynov<sup>* 1</sup></a> <a href="">Shlomi Fruchter<sup>† 1</sup></a> <a href="https://danielcohenor.com/">Daniel Cohen-Or<sup>† 1,2</sup></a><br>
 
     <span style="font-size: 16px"><br>
@@ -17,7 +17,7 @@
      <sup>*</sup>Indicates Equal Contribution <sup>†</sup>Indicates Equal Advising</span>
         </p>
 
-  <img src="./data/teaser3.jpg" class="teaser-gif" style="width:100%;">
+  <img src="./data/web1.png" class="teaser-gif" style="width:100%;">
     <font size="+2">
           <p style="text-align: center;">
             <a href="https://arxiv.org/abs/2312.02133" target="_blank">[Paper]</a> &nbsp;&nbsp;&nbsp;&nbsp;
@@ -38,14 +38,14 @@
     <h2>Problem Statement</h2>
     <p> While producing high-quality images that are aligned with any textual description, state-of-the-art text-to-image models often create images that diverge significantly in their interpretations of the same stylistic descriptor. Given a style description of “minimal origami”, standard text-to-image generation (left) outputs images with significantly different styles. Our method makes the model generation style persistent (right).</p>
     <br>
-    <img class="summary-img" src="./data/cmp.png" style="width:100%;"> <br>
+    <img class="summary-img" src="./data/web2.png" style="width:100%;"> <br>
   </div>
 
 <div class="content">
   <h2>Style Aligned Generation</h2>
   <p>Generation of images with a style aligned to the reference image on the left. In each diffusion denoising step, all the images, except the reference, perform a shared self-attention with the reference image.</p>
   <br>
-  <img class="summary-img" src="./data/method.jpg" style="width:100%;"> <br>
+  <img class="summary-img" src="./data/web3.png" style="width:100%;"> <br>
   <br>
   <p>The target images attend to the reference image by applying AdaIN over their queries and keys using the reference queries and keys. Then, we apply shared attention where the target features are updated by both the target values Vt and the reference values Vr.</p>
 </div>
@@ -54,12 +54,7 @@
 <div id="results" class="content">
   <h2>Results</h2>
   <p>Our method enables style-consistent content generation using different prompts <b>without fine-tuning</b>  </p>
-  <img class="summary-img" src="./data/results/for_web_result1.jpg" style="width:100%;">
-  <br>
-    <img class="summary-img" src="./data/results/for_web_result2.jpg" style="width:100%;">
-    <hr>
-  <p>Our method works well with style transfer from real reference images while not requiring training or model personalization.  </p>
-  <img class="summary-img" src="./data/results/reals2.jpg" style="width:100%;">
+  <img class="summary-img" src="./data/web4.png" style="width:100%;">
 </div>
 
 <div id="results2" class="content">
@@ -69,18 +64,26 @@
 
     <h4><a href="https://github.com/lllyasviel/ControlNet" target="_blank">ControlNet </a> + StyleAligned</h4>
 
-    <img class="summary-img" src="./data/results/controlnet1.jpg" style="width:100%;">
-    <br> <br>
-    <img class="summary-img" src="./data/results/controlnet2.jpg" style="width:100%;">
-    <br>
-    <hr>
-    <h4> <a href="https://dreambooth.github.io/" target="_blank">DreamBooth</a> + StyleAligned</h4>
-    <img class="summary-img" src="./data/results/db.jpg" style="width:100%;">
-    <br>
-    <hr>
-    <h4> <a href="https://multidiffusion.github.io/" target="_blank">MultiDiffusion</a> + StyleAligned</h4>
-    <img class="summary-img" src="./data/results/multidiffusion.jpg" style="width:100%;">
+    <img class="summary-img" src="./data/web5.png" style="width:100%;">
 </div>
+
+
+<div class="content">
+  <h2>Stylization w/ style descriptions</h2>
+  <p>Generation of images with a style aligned to the reference image on the left. In each diffusion denoising step, all the images, except the reference, perform a shared self-attention with the reference image.</p>
+  <br>
+  <img class="summary-img" src="./data/web6_1.png" style="width:100%;"> <br>
+  <br>
+  <h2>Stylization w/o style descriptions</h2>
+  <p>Generation of images with a style aligned to the reference image on the left. In each diffusion denoising step, all the images, except the reference, perform a shared self-attention with the reference image.</p>
+  <br>
+  <img class="summary-img" src="./data/web6_2.png" style="width:100%;"> <br>
+  <br>
+
+  <p>The target images attend to the reference image by applying AdaIN over their queries and keys using the reference queries and keys. Then, we apply shared attention where the target features are updated by both the target values Vt and the reference values Vr.</p>
+</div>
+
+
 
 
 <div class="content">
@@ -101,14 +104,5 @@
 </div>
 </body>
 
-<br>
-<body font-family="Google Sans">
-    <h2 style="text-align:center;">Can you guess all of the places? Click on image to know the answer.</h2>
-    <p style="text-align:center;">All of the images are generated with StyleAligned, first image serves as the style source.</p>
-    <div id="grid-container" class="grid-container">
-        <!-- Grid items will be inserted here by script.js -->
-    </div>
-    <script src="quiz.js"></script>
-</body>
 
 </html>
