@@ -54,14 +54,14 @@
     </div>
 
 <div class="content">        
-    <h2>Qualitative Results for Stylization</h2>
+    <h2>Stylization Results</h2>
     <p>In the third row, StyleAligned and StyleDrop generate a wine bottle and book resembling the smartphone in the reference style image. In the last row, StyleAligned leaks the house and the background of the reference image; InstantStyle exhibits color leakage from the house, resulting in similar-colored images. Our method accurately adheres to the prompt in the desired style.</p>
     <img class="summary-img" src="./data/web2.png" style="width:100%;"> <br>
     <p> A comparison with state-of-the-art methods (InstantStyle [13], StyleAligned [12], StyleDrop [11]) highlights our advantages in preventing information leakage from the reference style and adhering more closely to the desired text prompts.</p>    
   </div>
 
 <div class="content">
-  <h2>Qualitative Results for Content-Style Composition</h2>
+  <h2>Content-Style Composition Results</h2>
   <p>Among training-free methods, InstantStyle and IP-Adapter rely on ControlNet [22], which often constrains their ability to accurately follow prompts for changing the pose of the generated content, such as illustrating “dancing” in (b), or “walking” in (c). In contrast, our method avoids the need for ControlNet or adapters, and can effectively capture the distinctive attributes of both style and content images while adhering to the prompt to generate diverse images.</p>
   <br>
   <img class="summary-img" src="./data/web3.png" style="width:100%;"> <br>
@@ -78,7 +78,7 @@
 </div>
 
 <div id="results2" class="content">
-  <h2>Consistent Stylization for User Defined Prompts</h2>
+  <h2> User Defined Consistent Stylization</h2>
   <p>With no style description, our results demonstrate more diversity while following the desired prompts and effectively capturing the reference style. InstantStyle results show monotonous scenes and StyleAligned results suffer from severe information leakage. We report StyleDrop results for completeness and it is known to perform worse with no style description and a single training image [11].</p>
     <img class="summary-img" src="./data/web5.png" style="width:100%;">
   <h3 style="text-align:center">Each column describes consistent style aligned generations based on user defined prompts.</h3>
@@ -86,12 +86,12 @@
 
 
 <div class="content">
-  <h2>Stylization <b>with</b> Style Descriptions in Text Prompts</h2>
+  <h2>Stylization <b>with</b> Style Descriptions</h2>
   <p>While the alternative methods face challenges like following the prompts (e.g., multiple airplanes instead of a single airplane) and information leakage (e.g., the clouds on the cornflake bowl and the guitar in the milkshake image), our method demonstrates strong performance on both prompt and style alignment. Style description is in blue.</p>
   <br>
   <img class="summary-img" src="./data/web6_1.png" style="width:100%;"> <br>
   <br>
-  <h2>Stylization <b>without</b> Style Descriptions in Text Prompts</h2>
+  <h2>Stylization <b>without</b> Style Descriptions</h2>
   <p>StyleAligned and StyleDrop show severe performance drop after removing the style descriptions (e.g., see fireman and cat images). InstantStyle results show more information leakage (e.g., the pink ladybug and leopard), whereas no obvious performance drop is observed in our results.</p>
   <br>
   <img class="summary-img" src="./data/web6_2.png" style="width:100%;"> <br>
