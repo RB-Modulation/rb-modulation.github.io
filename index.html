@@ -106,12 +106,55 @@
 
 
 <div class="content">
+  <h2>Stylization with <b>Hand Drawn</b> Reference Style</h2>  
+  <br>
+  <img class="summary-img" src="./data/hand-drawn-ref-style.png" style="width:100%;"> <br>  
+  <br>
+  <p>Qualitative results for hand drawn reference style images. The proposed method is agnostic to real or generated reference images. Given hand drawn reference style images (e.g., “paint” from a commercial service provider) and desired text prompts (e.g., “a tiger”+style description), RB-Modulation captures the reference style in the generated content image.
+  </p>
+</div>
+
+<div class="content">
+  <h2><b> Novel Style Innovation </b> with RB-Modulation </h2>  
+  <br>
+  <img class="summary-img" src="./data/csd-style-interpolation.png" style="width:100%;"> <br>  
+  <br>
+  <p>The interpolation strength parameter provides additional control for blending features from multiple reference styles (e.g., “a lighthouse in mosaic art style” → “a lighthouse in cyberpunk art style”). This highlights RB-Modulation’s capability to generate novel and previously unseen styles.
+  </p>
+</div>
+
+<div class="content">
+  <h2> RB-Modulation with <b>ControlNet</b></h2>  
+  <br>
+  <img class="summary-img" src="./data/controlnet-content-style.png" style="width:100%;"> <br>
+  <br>
+  <p>
+    Qualitative results demonstrating compatibility with ControlNet (Zhang et al., 2023). Given the Canny edge map of a reference content and an image of a reference style, the proposed method effectively controls the pose of the generated samples while accurately capturing the desired style.
+  </p>
+  <h2>RB-Modulation with <b> SDXL </b></h2>  
+  <br>
+  <img class="summary-img" src="./data/rb-modulation-sdxl.png" style="width:100%;"> <br>
+  <br>
+  <p>Qualitative results using SDXL (Podell et al., 2023) as base model. This verifies the plug-and-play nature of RB-Modulation for training-free stylization.
+  </p>
+</div>
+
+<div class="content">
+  <h2> A gallery of Stylization using RB-Modulation </h2>  
+  <br>
+  <img class="summary-img" src="./data/rb-modulation-gallery.png" style="width:100%;"> <br>  
+  <br>  
+</div>
+
+
+<div class="content">
   <h2>BibTex</h2>
-  <code> @article{rout2024rbmodulation,<br>
-  &nbsp;&nbsp;title={RB-Modulation: Training-Free Personalization of Diffusion Models using Stochastic Optimal Control},<br>
+  <code>  @inproceedings{rout2025rbmodulation,<br>
+  &nbsp;&nbsp;title={RB-Modulation: Training-Free Stylization using Reference-Based Modulation},<br>
   &nbsp;&nbsp;author={Rout, L and Chen, Y and Ruiz, N and Kumar, A and Caramanis, C and Shakkottai, S and Chu, W},<br>
-  &nbsp;&nbsp;booktitle={arXiv preprint arxiv:2405.17401},<br>
-  &nbsp;&nbsp;year={2024}<br>
+  &nbsp;&nbsp;booktitle={The Thirteenth International Conference on Learning Representations},<br>
+  &nbsp;&nbsp;year={2025}<br>
+  &nbsp;&nbsp;url={https://openreview.net/forum?id=bnINPG5A32}<br>
   } </code> 
 </div>
 
